@@ -25,6 +25,21 @@ const styles = theme => ({
   }
 });
 
+const calculateAge = date => {
+  const today = new Date();
+  const birthDate = new Date(date);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age -= 1;
+  }
+  return age;
+};
+
 const Table = ({ classes, players }) => {
   return (
     <Paper>
@@ -42,8 +57,9 @@ const Table = ({ classes, players }) => {
             <TableRow key={player.name} className={classes.bodyRow}>
               <TableCell>{player.name}</TableCell>
               <TableCell>{player.position}</TableCell>
-              {/* todo: Calculate age */}
-              <TableCell align="right">{player.dateOfBirth}</TableCell>
+              <TableCell align="right">
+                {calculateAge(player.dateOfBirth)}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
