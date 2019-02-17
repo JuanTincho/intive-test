@@ -10,7 +10,9 @@ import theme from '../../utils/theme';
 
 const styles = {
   root: {
-    padding: '2em'
+    padding: '2em',
+    width: '50%',
+    margin: 'auto'
   },
   header: {
     margin: '1em 0'
@@ -27,7 +29,9 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          <Typography variant="h4"> Football Player Finder</Typography>
+          <Typography variant="h4" align="center">
+            Football Player Finder
+          </Typography>
           <Header />
           <Table />
         </div>

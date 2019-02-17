@@ -7,6 +7,16 @@ const theme = createMuiTheme({
         display: 'flex',
         justifyContent: 'center'
       }
+    },
+    MuiTableCell: {
+      head: {
+        color: 'inherit',
+        fontSize: '1.25em'
+      },
+      root: {
+        paddingRight: 4,
+        paddingLeft: 5
+      }
     }
   }
 });

@@ -21,7 +21,9 @@ class Header extends Component {
     this.setState({ [name]: value });
   };
 
-  searchPlayers = () => {};
+  searchPlayers = () => {
+    // todo: Add action to save filters in Redux Store
+  };
 
   render() {
     const { age, name, position } = this.state;
