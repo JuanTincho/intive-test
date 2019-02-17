@@ -7,4 +7,17 @@ const actionTypes = {
 
 const API_URL = 'https://football-players-b31f2.firebaseio.com/players.json';
 
-export { actionTypes, API_URL };
+const POSITION_OPTIONS = [
+  'Attacking Midfield',
+  'Central Midfield',
+  'Centre-Back',
+  'Centre-Forward',
+  'Defensive Midfield',
+  'Keeper',
+  'Left Midfield',
+  'Left Wing',
+  'Left-Back',
+  'Right-Back'
+];
+
+export { actionTypes, API_URL, POSITION_OPTIONS };

@@ -38,15 +38,13 @@ TextField.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   margin: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   variant: PropTypes.string
 };
 
 TextField.defaultProps = {
   margin: 'normal',
-  onChange: null,
-  value: undefined,
   variant: 'outlined'
 };
 

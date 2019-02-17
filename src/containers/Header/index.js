@@ -6,70 +6,113 @@ import { connect } from 'react-redux';
 
 import TextField from '../../components/TextField';
 import { setFilters as setFiltersActions } from '../../actions';
+import { POSITION_OPTIONS } from '../../constants';
 
 const styles = {
   header: {
-    margin: '4em 0'
+    margin: '4em 0',
+    minHeight: 125
   }
 };
 
 class Header extends Component {
   state = {
-    age: null,
+    age: '',
     name: '',
-    position: ''
+    position: '',
+    error: false
   };
 
   handleChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    this.setState(
+      {
+        [name]: value
+      },
+      () => this.setState({ error: this.validateName() || this.validateAge() })
+    );
+  };
+
+  handleKeyPress = e => {
+    if (e.which === 13) {
+      this.searchPlayers();
+    }
   };
 
   searchPlayers = () => {
     const { age, name, position } = this.state;
     const { setFilters } = this.props;
-    setFilters(age, name, position);
-    // todo: Add action to save filters in Redux Store
+    if (this.validateName() || this.validateAge()) {
+    } else {
+      setFilters(age, name.trim(''), position);
+    }
+  };
+
+  validateAge = () => {
+    const { age } = this.state;
+    return age !== '' && (+age < 18 || +age > 40);
+  };
+
+  validateName = () => {
+    const { name } = this.state;
+    return !name.trim('').match(/^[a-zA-Z\- ÅåÄäÖöØøÆæÉéÈèÜüÊêÛûÎîÑñ]*$/);
   };
 
   render() {
     const { age, name, position } = this.state;
     const { classes } = this.props;
+
+    const events = {
+      onChange: this.handleChange,
+      onKeyPress: this.handleKeyPress
+    };
+
     return (
       <Grid
         container
         className={classes.header}
-        alignItems="center"
+        alignItems="baseline"
         spacing={24}
       >
         <TextField
-          placeholder="Player Name"
+          label="Player Name"
           value={name}
           name="name"
-          onChange={this.handleChange}
+          error={this.validateName()}
+          {...events}
         />
         <TextField
-          placeholder="Position"
           select
           value={position}
+          label="Position"
           name="position"
-          onChange={this.handleChange}
+          {...events}
         >
-          <MenuItem value="Position">Position</MenuItem>
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {POSITION_OPTIONS.map(position => (
+            <MenuItem key={position} value={position}>
+              {position}
+            </MenuItem>
+          ))}
         </TextField>
         <TextField
-          placeholder="Age"
+          label="Age"
           type="number"
           name="age"
           value={age}
-          onChange={this.handleChange}
-          InputProps={{ inputProps: { min: 18, max: 40 } }}
+          InputProps={{ inputProps: { min: 18, max: 40, step: 1 } }}
+          helperText={this.validateAge() ? 'Number between 18 and 40' : ''}
+          error={this.validateAge()}
+          {...events}
         />
         <Grid item xs={3}>
           <Button
             color="primary"
             variant="contained"
             onClick={this.searchPlayers}
+            disabled={this.state.error}
           >
             Search
           </Button>
