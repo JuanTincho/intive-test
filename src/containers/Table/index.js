@@ -11,7 +11,7 @@ import {
   Paper,
   withStyles
 } from '@material-ui/core';
-import { playersSelector } from '../../selectors';
+import { filteredPlayersSelector } from '../../selectors';
 
 const styles = theme => ({
   bodyRow: {
@@ -24,21 +24,6 @@ const styles = theme => ({
     color: '#ffffff'
   }
 });
-
-const calculateAge = date => {
-  const today = new Date();
-  const birthDate = new Date(date);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-
-  if (
-    monthDifference < 0 ||
-    (monthDifference === 0 && today.getDate() < birthDate.getDate())
-  ) {
-    age -= 1;
-  }
-  return age;
-};
 
 const Table = ({ classes, players }) => {
   return (
@@ -53,13 +38,11 @@ const Table = ({ classes, players }) => {
         </TableHead>
         <TableBody>
           {/* todo: Add LOADER */}
-          {players.map(player => (
-            <TableRow key={player.name} className={classes.bodyRow}>
-              <TableCell>{player.name}</TableCell>
-              <TableCell>{player.position}</TableCell>
-              <TableCell align="right">
-                {calculateAge(player.dateOfBirth)}
-              </TableCell>
+          {players.map(({ age, name, position }) => (
+            <TableRow key={name} className={classes.bodyRow}>
+              <TableCell>{name}</TableCell>
+              <TableCell>{position}</TableCell>
+              <TableCell align="right">{age}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -73,14 +56,14 @@ Table.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       position: PropTypes.string,
-      dateOfBirth: PropTypes.string
+      age: PropTypes.number
     })
   )
 };
 
 const mapStateToProps = state => ({
   // todo: Fetch filteredPlayers
-  players: playersSelector(state)
+  players: filteredPlayersSelector(state)
 });
 
 const withConnect = connect(mapStateToProps);

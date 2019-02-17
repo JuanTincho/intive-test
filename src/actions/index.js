@@ -1,6 +1,13 @@
 import { actionTypes, API_URL } from '../constants';
+import { playersSelector } from '../selectors';
+import { calculateAge } from '../utils/helperFunctions';
 
-const { FETCH_DATA_SUCCESS, FETCH_DATA_FAIL, IS_LOADING } = actionTypes;
+const {
+  FETCH_DATA_SUCCESS,
+  FETCH_DATA_FAIL,
+  IS_LOADING,
+  SET_FILTERED_PLAYERS
+} = actionTypes;
 
 export function fetchDataSuccess(data) {
   return {
@@ -35,8 +42,46 @@ export function fetchData() {
         return response;
       })
       .then(response => response.json())
-      .then(data => dispatch(fetchDataSuccess(data)))
+      .then(data => {
+        dispatch(fetchDataSuccess(data));
+      })
       .catch(error => dispatch(fetchDataFail(error)))
-      .finally(() => dispatch(isLoading(false)));
+      .finally(() => {
+        dispatch(isLoading(false));
+        dispatch(setFilters());
+      });
+  };
+}
+
+export function setFilteredPlayers(players) {
+  return {
+    type: SET_FILTERED_PLAYERS,
+    players
+  };
+}
+
+export function setFilters(ageFilter, nameFilter, positionFilter) {
+  return (dispatch, getState) => {
+    const playersList = playersSelector(getState());
+
+    const filteredPlayers = playersList
+      .map(({ dateOfBirth, name, position }) => ({
+        name,
+        position,
+        age: calculateAge(dateOfBirth)
+      }))
+      .filter(({ age, name, position }) => {
+        const filterByAge = ageFilter ? age === +ageFilter : true;
+        const filterByName = nameFilter
+          ? name.toLowerCase().includes(nameFilter.toLowerCase())
+          : true;
+        const filterByPosition = positionFilter
+          ? position === positionFilter
+          : true;
+
+        return filterByAge && filterByName && filterByPosition;
+      });
+
+    dispatch(setFilteredPlayers(filteredPlayers));
   };
 }

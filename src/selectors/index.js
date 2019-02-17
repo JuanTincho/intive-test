@@ -8,5 +8,11 @@ export const playersSelector = createSelector(
     playersData.get('players') ? playersData.get('players').toJS() : []
 );
 
+export const filteredPlayersSelector = createSelector(
+  playersDataSelector,
+  playersData =>
+    playersData.get('filteredPlayers') ? playersData.get('filteredPlayers').toJS() : []
+);
+
           // todo: Add isLoading selector
           // todo: Add error selector

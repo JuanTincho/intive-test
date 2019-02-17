@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid, MenuItem, withStyles } from '@material-ui/core';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
+
 import TextField from '../../components/TextField';
+import { setFilters as setFiltersActions } from '../../actions';
 
 const styles = {
   header: {
@@ -22,6 +26,9 @@ class Header extends Component {
   };
 
   searchPlayers = () => {
+    const { age, name, position } = this.state;
+    const { setFilters } = this.props;
+    setFilters(age, name, position);
     // todo: Add action to save filters in Redux Store
   };
 
@@ -74,4 +81,18 @@ class Header extends Component {
 
 Header.propTypes = {};
 
-export default withStyles(styles)(Header);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  setFilters: bindActionCreators(setFiltersActions, dispatch)
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+export default compose(
+  withConnect,
+  withStyles(styles)
+)(Header);

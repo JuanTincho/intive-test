@@ -1,12 +1,18 @@
 import { fromJS } from 'immutable';
 import { actionTypes } from '../constants';
 
-const { FETCH_DATA_SUCCESS, FETCH_DATA_FAIL, IS_LOADING } = actionTypes;
+const {
+  FETCH_DATA_SUCCESS,
+  FETCH_DATA_FAIL,
+  IS_LOADING,
+  SET_FILTERED_PLAYERS
+} = actionTypes;
 
 export const playersDatainitialState = fromJS({
-  players: [],
   error: null,
-  isLoading: false
+  filteredPlayers: [],
+  isLoading: false,
+  players: []
 });
 
 export const playersDataReducer = (state = playersDatainitialState, action) => {
@@ -17,6 +23,8 @@ export const playersDataReducer = (state = playersDatainitialState, action) => {
       return state.merge({ players: fromJS(action.data) });
     case FETCH_DATA_FAIL:
       return state.merge({ error: action.error });
+    case SET_FILTERED_PLAYERS:
+      return state.merge({ filteredPlayers: fromJS(action.players) });
     default:
       return state;
   }
