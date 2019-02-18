@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { MuiThemeProvider, Typography, withStyles } from '@material-ui/core';
+import {
+  CircularProgress,
+  MuiThemeProvider,
+  Typography,
+  withStyles
+} from '@material-ui/core';
 
 import { fetchData as fetchDataAction } from '../../actions';
 import Header from '../Header';
 import Table from '../Table';
 import theme from '../../utils/theme';
+import { isLoadingSelector } from '../../selectors';
 
 const styles = {
   root: {
@@ -26,7 +33,7 @@ class App extends Component {
     fetchData();
   }
   render() {
-    const { classes } = this.props;
+    const { classes, isLoading } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
@@ -34,14 +41,20 @@ class App extends Component {
             Football Player Finder
           </Typography>
           <Header />
-          <Table />
+          {isLoading ? <CircularProgress size={140} /> : <Table />}
         </div>
       </MuiThemeProvider>
     );
   }
 }
 
-const mapStateToProps = state => ({});
+App.propTypes = {
+  isLoading: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  isLoading: isLoadingSelector(state)
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchData: bindActionCreators(fetchDataAction, dispatch)

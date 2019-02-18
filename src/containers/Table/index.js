@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  CircularProgress,
   Paper,
   Table as TableMui,
   TableBody,
@@ -12,7 +11,7 @@ import {
   TableRow,
   withStyles
 } from '@material-ui/core';
-import { filteredPlayersSelector, isLoadingSelector } from '../../selectors';
+import { filteredPlayersSelector } from '../../selectors';
 
 const styles = theme => ({
   bodyRow: {
@@ -28,32 +27,26 @@ const styles = theme => ({
 
 const Table = ({ classes, isLoading, players }) => {
   return (
-    <>
-      {isLoading ? (
-        <CircularProgress size={140} />
-      ) : (
-        <Paper>
-          <TableMui>
-            <TableHead>
-              <TableRow className={classes.headRow}>
-                <TableCell>Name</TableCell>
-                <TableCell>Position</TableCell>
-                <TableCell align="right">Age</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {players.map(({ age, name, position }) => (
-                <TableRow key={name} className={classes.bodyRow}>
-                  <TableCell>{name}</TableCell>
-                  <TableCell>{position}</TableCell>
-                  <TableCell align="right">{age}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TableMui>
-        </Paper>
-      )}
-    </>
+    <Paper>
+      <TableMui>
+        <TableHead>
+          <TableRow className={classes.headRow}>
+            <TableCell>Name</TableCell>
+            <TableCell>Position</TableCell>
+            <TableCell align="right">Age</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {players.map(({ age, name, position }) => (
+            <TableRow key={name} className={classes.bodyRow}>
+              <TableCell>{name}</TableCell>
+              <TableCell>{position}</TableCell>
+              <TableCell align="right">{age}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </TableMui>
+    </Paper>
   );
 };
 
@@ -65,12 +58,10 @@ Table.propTypes = {
       age: PropTypes.number
     })
   ),
-  isLoading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   players: filteredPlayersSelector(state),
-  isLoading: isLoadingSelector(state)
 });
 
 const withConnect = connect(mapStateToProps);
