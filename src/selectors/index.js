@@ -4,26 +4,24 @@ const playersDataSelector = state => state.get('playersData');
 
 export const playersSelector = createSelector(
   playersDataSelector,
-  playersDataState =>
-    playersDataState.get('players')
-      ? playersDataState.get('players').toJS()
-      : []
+  playersDataState => (playersDataState.get('players')
+    ? playersDataState.get('players').toJS()
+    : []),
 );
 
 export const filteredPlayersSelector = createSelector(
   playersDataSelector,
-  playersDataState =>
-    playersDataState.get('filteredPlayers')
-      ? playersDataState.get('filteredPlayers').toJS()
-      : []
+  playersDataState => (playersDataState.get('filteredPlayers')
+    ? playersDataState.get('filteredPlayers').toJS()
+    : []),
 );
 
 export const isLoadingSelector = createSelector(
   playersDataSelector,
-  playersDataState => playersDataState.get('isLoading')
+  playersDataState => playersDataState.get('isLoading'),
 );
 
 export const errorSelector = createSelector(
   playersDataSelector,
-  playersDataState => playersDataState.get('error')
+  playersDataState => playersDataState.get('error'),
 );

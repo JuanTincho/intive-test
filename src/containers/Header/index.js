@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Grid, MenuItem, withStyles } from '@material-ui/core';
+import {
+  Button, Grid, MenuItem, withStyles,
+} from '@material-ui/core';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -11,8 +13,8 @@ import { POSITION_OPTIONS } from '../../constants';
 const styles = {
   header: {
     margin: '4em 0',
-    minHeight: 125
-  }
+    minHeight: 125,
+  },
 };
 
 class Header extends Component {
@@ -20,20 +22,20 @@ class Header extends Component {
     age: '',
     name: '',
     position: '',
-    error: false
+    error: false,
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { name, value } = event.target;
     this.setState(
       {
-        [name]: value
+        [name]: value,
       },
-      () => this.setState({ error: this.validateName() || this.validateAge() })
+      () => this.setState({ error: this.validateName() || this.validateAge() }),
     );
   };
 
-  handleKeyPress = e => {
+  handleKeyPress = (e) => {
     if (e.which === 13) {
       this.searchPlayers();
     }
@@ -42,8 +44,7 @@ class Header extends Component {
   searchPlayers = () => {
     const { age, name, position } = this.state;
     const { setFilters } = this.props;
-    if (this.validateName() || this.validateAge()) {
-    } else {
+    if (!this.validateName() && !this.validateAge()) {
       setFilters(age, name.trim(''), position);
     }
   };
@@ -59,21 +60,18 @@ class Header extends Component {
   };
 
   render() {
-    const { age, name, position } = this.state;
+    const {
+      age, error, name, position,
+    } = this.state;
     const { classes } = this.props;
 
     const events = {
       onChange: this.handleChange,
-      onKeyPress: this.handleKeyPress
+      onKeyPress: this.handleKeyPress,
     };
 
     return (
-      <Grid
-        container
-        className={classes.header}
-        alignItems="baseline"
-        spacing={24}
-      >
+      <Grid container className={classes.header} alignItems="baseline" spacing={24}>
         <TextField
           label="Player Name"
           value={name}
@@ -81,19 +79,13 @@ class Header extends Component {
           error={this.validateName()}
           {...events}
         />
-        <TextField
-          select
-          value={position}
-          label="Position"
-          name="position"
-          {...events}
-        >
+        <TextField select value={position} label="Position" name="position" {...events}>
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {POSITION_OPTIONS.map(position => (
-            <MenuItem key={position} value={position}>
-              {position}
+          {POSITION_OPTIONS.map(positionOption => (
+            <MenuItem key={positionOption} value={positionOption}>
+              {positionOption}
             </MenuItem>
           ))}
         </TextField>
@@ -108,12 +100,7 @@ class Header extends Component {
           {...events}
         />
         <Grid item xs={3}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={this.searchPlayers}
-            disabled={this.state.error}
-          >
+          <Button color="primary" variant="contained" onClick={this.searchPlayers} disabled={error}>
             Search
           </Button>
         </Grid>
@@ -122,20 +109,22 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {};
-
-const mapStateToProps = state => ({});
+Header.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  classes: PropTypes.object.isRequired,
+  setFilters: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = dispatch => ({
-  setFilters: bindActionCreators(setFiltersActions, dispatch)
+  setFilters: bindActionCreators(setFiltersActions, dispatch),
 });
 
 const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  null,
+  mapDispatchToProps,
 );
 
 export default compose(
   withConnect,
-  withStyles(styles)
+  withStyles(styles),
 )(Header);

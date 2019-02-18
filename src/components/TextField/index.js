@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = () => ({
   textField: {
     display: 'flex',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
 const TextField = ({
@@ -40,12 +40,12 @@ TextField.propTypes = {
   margin: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  variant: PropTypes.string
+  variant: PropTypes.string,
 };
 
 TextField.defaultProps = {
   margin: 'normal',
-  variant: 'outlined'
+  variant: 'outlined',
 };
 
 export default withStyles(styles)(TextField);

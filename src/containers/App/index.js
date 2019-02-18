@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  CircularProgress,
-  MuiThemeProvider,
-  Typography,
-  withStyles
+  CircularProgress, MuiThemeProvider, Typography, withStyles,
 } from '@material-ui/core';
 
 import { fetchData as fetchDataAction } from '../../actions';
@@ -21,11 +18,11 @@ const styles = {
     margin: 'auto',
     padding: '2em',
     textAlign: 'center',
-    width: '50%'
+    width: '50%',
   },
   header: {
-    margin: '1em 0'
-  }
+    margin: '1em 0',
+  },
 };
 
 class App extends Component {
@@ -33,6 +30,7 @@ class App extends Component {
     const { fetchData } = this.props;
     fetchData();
   }
+
   render() {
     const { classes, isLoading } = this.props;
     return (
@@ -51,7 +49,10 @@ class App extends Component {
 }
 
 App.propTypes = {
-  isLoading: PropTypes.bool.isRequired
+  // eslint-disable-next-line react/forbid-prop-types
+  classes: PropTypes.object.isRequired,
+  fetchData: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -59,15 +60,15 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchData: bindActionCreators(fetchDataAction, dispatch)
+  fetchData: bindActionCreators(fetchDataAction, dispatch),
 });
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 export default compose(
   withConnect,
-  withStyles(styles)
+  withStyles(styles),
 )(App);

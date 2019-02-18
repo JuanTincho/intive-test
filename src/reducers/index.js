@@ -5,14 +5,14 @@ const {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAIL,
   IS_LOADING,
-  SET_FILTERED_PLAYERS
+  SET_FILTERED_PLAYERS,
 } = actionTypes;
 
 export const playersDatainitialState = fromJS({
   error: null,
   filteredPlayers: [],
   isLoading: false,
-  players: []
+  players: [],
 });
 
 export const playersDataReducer = (state = playersDatainitialState, action) => {
