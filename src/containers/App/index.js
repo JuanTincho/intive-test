@@ -10,9 +10,10 @@ import theme from '../../utils/theme';
 
 const styles = {
   root: {
+    margin: 'auto',
     padding: '2em',
-    width: '50%',
-    margin: 'auto'
+    textAlign: 'center',
+    width: '50%'
   },
   header: {
     margin: '1em 0'

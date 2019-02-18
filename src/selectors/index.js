@@ -4,15 +4,26 @@ const playersDataSelector = state => state.get('playersData');
 
 export const playersSelector = createSelector(
   playersDataSelector,
-  playersData =>
-    playersData.get('players') ? playersData.get('players').toJS() : []
+  playersDataState =>
+    playersDataState.get('players')
+      ? playersDataState.get('players').toJS()
+      : []
 );
 
 export const filteredPlayersSelector = createSelector(
   playersDataSelector,
-  playersData =>
-    playersData.get('filteredPlayers') ? playersData.get('filteredPlayers').toJS() : []
+  playersDataState =>
+    playersDataState.get('filteredPlayers')
+      ? playersDataState.get('filteredPlayers').toJS()
+      : []
 );
 
-          // todo: Add isLoading selector
-          // todo: Add error selector
+export const isLoadingSelector = createSelector(
+  playersDataSelector,
+  playersDataState => playersDataState.get('isLoading')
+);
+
+export const errorSelector = createSelector(
+  playersDataSelector,
+  playersDataState => playersDataState.get('error')
+);
