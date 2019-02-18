@@ -14,6 +14,7 @@ import Header from '../Header';
 import Table from '../Table';
 import theme from '../../utils/theme';
 import { isLoadingSelector } from '../../selectors';
+import ErrorSnackbar from '../../components/ErrorSnackbar';
 
 const styles = {
   root: {
@@ -43,6 +44,7 @@ class App extends Component {
           <Header />
           {isLoading ? <CircularProgress size={140} /> : <Table />}
         </div>
+        <ErrorSnackbar />
       </MuiThemeProvider>
     );
   }
@@ -53,7 +55,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isLoading: isLoadingSelector(state)
+  isLoading: isLoadingSelector(state),
 });
 
 const mapDispatchToProps = dispatch => ({

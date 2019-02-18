@@ -33,7 +33,7 @@ export function isLoading(isLoading) {
 export function fetchData() {
   return dispatch => {
     dispatch(isLoading(true));
-
+    dispatch(fetchDataFail(false));
     fetch(API_URL)
       .then(response => {
         if (!response.ok) {
@@ -45,7 +45,7 @@ export function fetchData() {
       .then(data => {
         dispatch(fetchDataSuccess(data));
       })
-      .catch(error => dispatch(fetchDataFail(error)))
+      .catch(() => dispatch(fetchDataFail(true)))
       .finally(() => {
         dispatch(isLoading(false));
         dispatch(setFilters());

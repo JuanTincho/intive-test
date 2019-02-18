@@ -9,7 +9,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  withStyles
+  withStyles,
+  Typography
 } from '@material-ui/core';
 import { filteredPlayersSelector } from '../../selectors';
 
@@ -25,27 +26,31 @@ const styles = theme => ({
   }
 });
 
-const Table = ({ classes, isLoading, players }) => {
+const Table = ({ classes, players }) => {
   return (
     <Paper>
-      <TableMui>
-        <TableHead>
-          <TableRow className={classes.headRow}>
-            <TableCell>Name</TableCell>
-            <TableCell>Position</TableCell>
-            <TableCell align="right">Age</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {players.map(({ age, name, position }) => (
-            <TableRow key={name} className={classes.bodyRow}>
-              <TableCell>{name}</TableCell>
-              <TableCell>{position}</TableCell>
-              <TableCell align="right">{age}</TableCell>
+      {!players.length ? (
+        <Typography variant="headline"> No players found</Typography>
+      ) : (
+        <TableMui>
+          <TableHead>
+            <TableRow className={classes.headRow}>
+              <TableCell>Name</TableCell>
+              <TableCell>Position</TableCell>
+              <TableCell align="right">Age</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </TableMui>
+          </TableHead>
+          <TableBody>
+            {players.map(({ age, name, position }) => (
+              <TableRow key={name} className={classes.bodyRow}>
+                <TableCell>{name}</TableCell>
+                <TableCell>{position}</TableCell>
+                <TableCell align="right">{age}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableMui>
+      )}
     </Paper>
   );
 };
@@ -57,11 +62,11 @@ Table.propTypes = {
       position: PropTypes.string,
       age: PropTypes.number
     })
-  ),
+  )
 };
 
 const mapStateToProps = state => ({
-  players: filteredPlayersSelector(state),
+  players: filteredPlayersSelector(state)
 });
 
 const withConnect = connect(mapStateToProps);
