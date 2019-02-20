@@ -20,12 +20,9 @@ const styles = {
     textAlign: 'center',
     width: '50%',
   },
-  header: {
-    margin: '1em 0',
-  },
 };
 
-class App extends Component {
+export class App extends Component {
   componentDidMount() {
     const { fetchData } = this.props;
     fetchData();
