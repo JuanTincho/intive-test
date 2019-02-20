@@ -77,6 +77,7 @@ class Header extends Component {
           value={name}
           name="name"
           error={this.validateName()}
+          helperText={this.validateName() ? 'Please use only letters.' : ''}
           {...events}
         />
         <TextField select value={position} label="Position" name="position" {...events}>
@@ -95,7 +96,7 @@ class Header extends Component {
           name="age"
           value={age}
           InputProps={{ inputProps: { min: 18, max: 40, step: 1 } }}
-          helperText={this.validateAge() ? 'Number between 18 and 40' : ''}
+          helperText={this.validateAge() ? 'Age must be a number between 18 and 40' : ''}
           error={this.validateAge()}
           {...events}
         />
