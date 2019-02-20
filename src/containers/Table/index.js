@@ -26,10 +26,10 @@ const styles = theme => ({
   },
 });
 
-const Table = ({ classes, players }) => (
+export const Table = ({ classes, players }) => (
   <Paper>
     {!players.length ? (
-      <Typography variant="headline"> No players found</Typography>
+      <Typography id="message-no-players" variant="headline">No players found</Typography>
     ) : (
       <TableMui>
         <TableHead>
