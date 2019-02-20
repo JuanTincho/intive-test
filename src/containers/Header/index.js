@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-class Header extends Component {
+export class Header extends Component {
   state = {
     age: '',
     name: '',
@@ -73,14 +73,22 @@ class Header extends Component {
     return (
       <Grid container className={classes.header} alignItems="baseline" spacing={24}>
         <TextField
+          id="name"
+          name="name"
           label="Player Name"
           value={name}
-          name="name"
           error={this.validateName()}
           helperText={this.validateName() ? 'Please use only letters.' : ''}
           {...events}
         />
-        <TextField select value={position} label="Position" name="position" {...events}>
+        <TextField
+          id="position"
+          name="position"
+          label="Position"
+          value={position}
+          select
+          {...events}
+        >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
@@ -91,17 +99,24 @@ class Header extends Component {
           ))}
         </TextField>
         <TextField
-          label="Age"
-          type="number"
+          id="age"
           name="age"
+          label="Age"
           value={age}
+          type="number"
           InputProps={{ inputProps: { min: 18, max: 40, step: 1 } }}
           helperText={this.validateAge() ? 'Age must be a number between 18 and 40' : ''}
           error={this.validateAge()}
           {...events}
         />
         <Grid item xs={3}>
-          <Button color="primary" variant="contained" onClick={this.searchPlayers} disabled={error}>
+          <Button
+            id="button"
+            color="primary"
+            variant="contained"
+            onClick={this.searchPlayers}
+            disabled={error}
+          >
             Search
           </Button>
         </Grid>
