@@ -12,7 +12,7 @@ import { errorSelector } from '../../selectors';
 
 const styles = {};
 
-const ErrorSnackbar = ({ error, fetchData }) => {
+export const ErrorSnackbar = ({ error, fetchData }) => {
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
@@ -43,10 +43,16 @@ const ErrorSnackbar = ({ error, fetchData }) => {
       }}
       message={<span id="error-message">Error fetching players from server</span>}
       action={[
-        <Button key="retry" color="secondary" size="small" onClick={fetchPlayers}>
+        <Button id="button-retry" key="retry" color="secondary" size="small" onClick={fetchPlayers}>
           RETRY
         </Button>,
-        <IconButton key="close" aria-label="Close" color="inherit" onClick={handleClose}>
+        <IconButton
+          id="button-close"
+          key="close"
+          aria-label="Close"
+          color="inherit"
+          onClick={handleClose}
+        >
           <CloseIcon />
         </IconButton>,
       ]}
