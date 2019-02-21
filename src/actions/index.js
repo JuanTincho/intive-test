@@ -3,7 +3,7 @@ import { playersSelector } from '../selectors';
 import calculateAge from '../utils/helperFunctions';
 
 const {
-  FETCH_DATA_SUCCESS, FETCH_DATA_FAIL, IS_LOADING, SET_FILTERED_PLAYERS,
+  FETCH_DATA_SUCCESS, SET_ERROR, IS_LOADING, SET_FILTERED_PLAYERS,
 } = actionTypes;
 
 export function fetchDataSuccess(data) {
@@ -13,9 +13,9 @@ export function fetchDataSuccess(data) {
   };
 }
 
-export function fetchDataFail(error) {
+export function setError(error) {
   return {
-    type: FETCH_DATA_FAIL,
+    type: SET_ERROR,
     error,
   };
 }
@@ -54,15 +54,15 @@ export function setFilters(ageFilter, nameFilter, positionFilter) {
         return filterByAge && filterByName && filterByPosition;
       });
 
-    dispatch(setFilteredPlayers(filteredPlayers));
+    return dispatch(setFilteredPlayers(filteredPlayers));
   };
 }
 
 export function fetchData() {
   return (dispatch) => {
     dispatch(isPlayersLoading(true));
-    dispatch(fetchDataFail(false));
-    fetch(API_URL)
+    dispatch(setError(false));
+    return fetch(API_URL)
       .then((response) => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -70,13 +70,11 @@ export function fetchData() {
         return response;
       })
       .then(response => response.json())
-      .then((data) => {
-        dispatch(fetchDataSuccess(data));
-      })
-      .catch(() => dispatch(fetchDataFail(true)))
+      .then(data => dispatch(fetchDataSuccess(data)))
+      .then(() => dispatch(setFilters()))
+      .catch(() => dispatch(setError(true)))
       .finally(() => {
         dispatch(isPlayersLoading(false));
-        dispatch(setFilters());
       });
   };
 }
