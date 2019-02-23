@@ -9,7 +9,7 @@ const {
 } = actionTypes;
 
 export const playersDatainitialState = fromJS({
-  error: null,
+  error: false,
   filteredPlayers: [],
   isLoading: false,
   players: [],
