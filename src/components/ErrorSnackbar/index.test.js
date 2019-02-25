@@ -45,4 +45,13 @@ describe('ErrorSnacknar', () => {
     errorSnackbarWrapper.update();
     expect(errorSnackbarWrapper.find(Snackbar).prop('open')).toBeFalsy();
   });
+
+  it('should not close the Snackbar when it\'s clicked away from the snackbar', () => {
+    expect(buttons[1].props.id).toEqual('button-close');
+    act(() => {
+      buttons[1].props.onClick(null, 'clickaway');
+    });
+    errorSnackbarWrapper.update();
+    expect(errorSnackbarWrapper.find(Snackbar).prop('open')).toBeTruthy();
+  });
 });
