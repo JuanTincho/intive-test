@@ -2,7 +2,7 @@ import * as matchers from 'jest-immutable-matchers';
 import { fromJS } from 'immutable';
 import { playersDatainitialState, playersDataReducer } from './index';
 import {
-  fetchDataFail, fetchDataSuccess, isPlayersLoading, setFilteredPlayers,
+  setError, fetchDataSuccess, isPlayersLoading, setFilteredPlayers,
 } from '../actions';
 
 describe('Players reducer', () => {
@@ -46,7 +46,7 @@ describe('Players reducer', () => {
     });
   });
 
-  describe('fetchDataFail action', () => {
+  describe('setError action', () => {
     it('should change the error with the action value', () => {
       const error = true;
       const expectedResult = fromJS({
@@ -56,7 +56,7 @@ describe('Players reducer', () => {
         players: [],
       });
 
-      expect(playersDataReducer(playersDatainitialState, fetchDataFail(error))).toEqualImmutable(
+      expect(playersDataReducer(playersDatainitialState, setError(error))).toEqualImmutable(
         expectedResult,
       );
     });
