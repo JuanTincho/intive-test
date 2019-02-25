@@ -29,7 +29,7 @@ const styles = theme => ({
 export const Table = ({ classes, players }) => (
   <Paper>
     {!players.length ? (
-      <Typography id="message-no-players" variant="headline">No players found</Typography>
+      <Typography id="message-no-players" variant="h5">No players found</Typography>
     ) : (
       <TableMui>
         <TableHead>
